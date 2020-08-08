@@ -39,6 +39,10 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
    	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
    	
+   	//
+   	implementation 'org.modelmapper:modelmapper:2.0.0'
+   	
+   	
    	//Dozer
    	implementation 'net.sf.dozer:dozer:5.5.1'
    	
@@ -54,5 +58,9 @@ dependencies {
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+	
+	// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
+	
 }
  

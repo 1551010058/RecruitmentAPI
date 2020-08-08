@@ -1,5 +1,6 @@
 package com.recruitment.api.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Banner {
@@ -23,6 +24,13 @@ public class Banner {
     private Date DeletedDate;
     private String DeletedUser;
     private int TotalRecord;
+    private String DateRange;   
+    
+	public String getDateRange() {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
+		return StartDate != null ? formatter.format(StartDate) + " - " + formatter.format(EndDate) : "";
+	}
+	
 	public int getBannerID() {
 		return BannerID;
 	}
