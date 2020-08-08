@@ -21,6 +21,32 @@ import oracle.jdbc.OracleTypes;
 public class BannerServiceImp implements BannerService{
 	
 	@Override
+	public Banner GetBanner(int bannerID) {
+		Banner response = new Banner();
+		try (Connection conn =  DBConnPool.getConnection()) {
+			try (CallableStatement pStmt = conn.prepareCall("{call HRTGDD.HR_BANNER_SEL(?,?)}")) {
+				pStmt.registerOutParameter(1, OracleTypes.CURSOR);
+				pStmt.setInt(2, bannerID);
+				pStmt.execute();
+				ResultSet resultSet = (ResultSet) pStmt.getObject(1);
+				while (resultSet.next()) {						
+					ModelMapper modelMapper = new ModelMapper();
+					response = modelMapper.map(MappingHelper.MappingResultSetToObject(resultSet),Banner.class);
+				}
+				
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@Override
 	public List<Banner> GetBannerList(String keyword, int position, int currentPage, int recordPerpage) {
 		List<Banner> response = new ArrayList<Banner>();
 		
@@ -34,71 +60,6 @@ public class BannerServiceImp implements BannerService{
 				pStmt.execute();
 				ResultSet resultSet = (ResultSet) pStmt.getObject(1);
 				while (resultSet.next()) {						
-//					ResultSetMetaData rsmd = resultSet.getMetaData();
-//					int columnsCount = rsmd.getColumnCount();
-//					Map<String, Object> params = new HashMap<String, Object>();
-//					for (int i = 1; i < columnsCount + 1; i++) {
-//
-//						String cl = rsmd.getColumnName(i).toLowerCase();
-//						int sqlType = rsmd.getColumnType(i);
-//
-//						if (resultSet.getObject(i) != null) {
-//							switch (sqlType) {
-//							case Types.BIGINT:
-//							case Types.INTEGER:
-//							case Types.TINYINT:
-//							case Types.SMALLINT:
-//
-//								params.put(cl, resultSet.getInt(i));
-//
-//								break;
-//							case Types.DATE:
-//
-//								params.put(cl, resultSet.getDate(i));
-//
-//								break;
-//							case Types.TIMESTAMP:
-//								params.put(cl, resultSet.getTimestamp(i).getTime());
-//
-//								break;
-//							case Types.DOUBLE:
-//								params.put(cl, resultSet.getDouble(i));
-//
-//								break;
-//							case Types.FLOAT:
-//								params.put(cl, resultSet.getFloat(i));
-//
-//								break;
-//							case Types.NVARCHAR:
-//								params.put(cl, resultSet.getString(i).trim());
-//								break;
-//							case Types.VARCHAR:
-//								params.put(cl, resultSet.getString(i).trim());
-//
-//								break;
-//							case Types.BLOB:
-//								params.put(cl, resultSet.getBlob(i));
-//
-//								break;
-//							case Types.CLOB:
-//								params.put(cl, resultSet.getClob(i));
-//
-//								break;
-//							case Types.NCLOB:
-//								params.put(cl, resultSet.getNClob(i));
-//								break;
-//							default:
-//								params.put(cl, resultSet.getString(i));
-//
-//								break;
-//							}
-//						} else {
-//
-//							params.put(cl, null);
-//						}
-//
-//					}
-//					
 					ModelMapper modelMapper = new ModelMapper();
 					Banner banner = modelMapper.map(MappingHelper.MappingResultSetToObject(resultSet),Banner.class);
 					response.add(banner);
@@ -115,11 +76,29 @@ public class BannerServiceImp implements BannerService{
 		}
 		return response;
 	}
-
 	@Override
-	public Banner GetBanner(int bannerID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	public int DeleteBanner(int bannerID)
+    {
+		int result = 0;
+		try (Connection conn =  DBConnPool.getConnection()) {
+			try (CallableStatement pStmt = conn.prepareCall("{call HRTGDD.HR_BANNER_DEL(?,?,?)}")) {
+				pStmt.registerOutParameter(1, OracleTypes.CURSOR);
+				pStmt.setInt(2, bannerID);
+				pStmt.setString(3, null);
+				pStmt.execute();
+				ResultSet resultSet = (ResultSet) pStmt.getObject(1);
+				while (resultSet.next()) {						
+				}
+				
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+    }
 }
