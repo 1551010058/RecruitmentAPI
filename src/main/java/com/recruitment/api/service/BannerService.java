@@ -10,5 +10,9 @@ public interface BannerService {
 	
     Banner GetBanner(int bannerID);
     
+    Banner AddBanner(Banner banner);
+    
+    Banner UpdateBanner(Banner banner);
+    
     int DeleteBanner(int bannerID);
 }

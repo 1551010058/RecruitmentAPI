@@ -44,7 +44,7 @@ public class SwaggerConfiguration {
 
 	private ApiInfo metaData() {
 		return new ApiInfoBuilder().title("Recruitment API Spring Boot").description("").version("1.0").license("")
-				.licenseUrl("").contact(new Contact("Linh Mai", "https://ou.edu.vn", "1551010058.linh@ou.edu.vn")).build();
+				.licenseUrl("").contact(new Contact("Linh Mai", "https://gmail.com", "maiduylinh97@gmail.com")).build();
 	}
 
 	private ApiKey apiKey() {
